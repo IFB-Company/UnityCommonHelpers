@@ -20,6 +20,8 @@ namespace Common.Visual
 
         public override Color GetColor()
         {
+            if(_img == null) 
+                return Color.black;
             return _img.color;
         }
     }
