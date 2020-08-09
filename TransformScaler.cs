@@ -12,6 +12,8 @@ namespace Common
             set => _isEnabled = value;
         }
 
+        [SerializeField] private bool _isLerp = true;
+
         [SerializeField] private float _speed = 6f;
         [SerializeField] private Vector3 _currentScale = Vector3.one;
 
@@ -40,7 +42,15 @@ namespace Common
             if (!_isEnabled)
                 return;
 
-            transform.localScale = Vector3.Lerp(transform.localScale, _currentScale, _speed * Time.deltaTime);
+            if (_isLerp)
+            {
+                transform.localScale = Vector3.Lerp(transform.localScale, _currentScale, _speed * Time.deltaTime);
+            }
+            else
+            {
+                transform.localScale = Vector3.MoveTowards(transform.localScale, _currentScale, _speed * Time.deltaTime);
+            }
+            
         }
     }
 }
