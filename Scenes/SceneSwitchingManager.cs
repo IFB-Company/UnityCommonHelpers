@@ -14,14 +14,14 @@ namespace Common.Singletons
         /// <summary>
         /// int_param = Scene index in build settings
         /// </summary>
-        public event Action<int> OnSceneStartLoading;
+        public event Action<string> OnSceneStartLoading;
         
         /// <summary>
         /// int_param = Scene index in build settings
         /// </summary>
-        public event Action<int> OnSceneLoaded; 
+        public event Action<string> OnSceneLoaded; 
         
-        public void LoadSceneByIndex(int sceneIndex)
+        public void LoadSceneByName(string sceneName)
         {
             if (_sceneSwitchingCoroutine != null)
             {
@@ -29,13 +29,13 @@ namespace Common.Singletons
                 return;
             }
 
-            _sceneSwitchingCoroutine = StartCoroutine(SceneSwitchingCoroutine(sceneIndex));
+            _sceneSwitchingCoroutine = StartCoroutine(SceneSwitchingCoroutine(sceneName));
         }
-
-        private IEnumerator SceneSwitchingCoroutine(int sceneIndex)
+        
+        private IEnumerator SceneSwitchingCoroutine(string sceneName)
         {
-            OnSceneStartLoading?.Invoke(sceneIndex);
-            AsyncOperation loadingAsyncOp = SceneManager.LoadSceneAsync(sceneIndex);
+            OnSceneStartLoading?.Invoke(sceneName);
+            AsyncOperation loadingAsyncOp = SceneManager.LoadSceneAsync(sceneName);
             while (!loadingAsyncOp.isDone)
             {
                 yield return null;
@@ -43,7 +43,8 @@ namespace Common.Singletons
             
             yield return new WaitForSeconds(_delayAfterLoad);
             _sceneSwitchingCoroutine = null;
-            OnSceneLoaded?.Invoke(sceneIndex);
+            OnSceneLoaded?.Invoke(sceneName);
         }
+        
     }
 }

@@ -10,7 +10,7 @@ namespace Common.Singletons
         [SerializeField] private GameObject[] _managersToPreload;
         [SerializeField] private float _delayBetweenLoad = 0.5f;
         [SerializeField] private SceneSwitchingManager _switchingManager;
-        [SerializeField] private int _nextSceneIndexToLoadAfterPreloader = 1;
+        [SerializeField] private string _nextSceneName;
         [SerializeField] private bool _isDontDestroyComponentAtManagers = true;
         
         // Make Preloader as SingletonBase to avoid duplicate loadings and throw expection
@@ -51,7 +51,7 @@ namespace Common.Singletons
             yield return waiting;
             
             if(_switchingManager != null)
-                _switchingManager.LoadSceneByIndex(_nextSceneIndexToLoadAfterPreloader);
+                _switchingManager.LoadSceneByName(_nextSceneName);
 
         }
     }
