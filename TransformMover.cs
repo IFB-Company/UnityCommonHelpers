@@ -27,6 +27,8 @@ namespace Common
         
         void Update()
         {
+            if (!_isEnabled)
+                return;
             transform.Translate(_direction * _speed * Time.deltaTime);
         }
     } 
