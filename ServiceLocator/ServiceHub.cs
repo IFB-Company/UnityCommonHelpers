@@ -6,8 +6,9 @@ namespace Common.ServiceLocator
     public class ServiceHub : MonoBehaviour
     {
         [SerializeField] private GameObject[] _servicePrefabs;
-
         public event Action<IGameService> OnGameServiceCreated;
+
+        public event Action OnServicesLoaded;
 
         private void Start()
         {
@@ -15,6 +16,8 @@ namespace Common.ServiceLocator
             InitMonoBehaviorServices();
             
             DontDestroyOnLoad(this.gameObject);
+            
+            OnServicesLoaded?.Invoke();
         }
 
         /// <summary>
