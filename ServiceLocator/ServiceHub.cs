@@ -5,12 +5,12 @@ namespace Common.ServiceLocator
 {
     public class ServiceHub : MonoBehaviour
     {
-        [SerializeField] private GameObject[] _servicePrefabs;
+        [SerializeField] protected GameObject[] _servicePrefabs;
         public event Action<IGameService> OnGameServiceCreated;
 
         public event Action OnServicesLoaded;
 
-        private void Start()
+        protected virtual void Start()
         {
             InitStandartServices();
             InitMonoBehaviorServices();
@@ -23,12 +23,12 @@ namespace Common.ServiceLocator
         /// <summary>
         /// Default services not inherited  by MonoBehaviour 
         /// </summary>
-        private void InitStandartServices()
+        protected virtual void InitStandartServices()
         {
             
         }
 
-        private void InitMonoBehaviorServices()
+        protected virtual void InitMonoBehaviorServices()
         {
             for (int i = 0; i < _servicePrefabs.Length; i++)
             {
