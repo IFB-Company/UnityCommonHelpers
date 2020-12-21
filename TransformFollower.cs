@@ -18,6 +18,11 @@ namespace Common
         [SerializeField] private float _moveSpeed = 6f;
         [SerializeField] private float _rotSpeed = 6f;
 
+        public void SetFollowTransform(Transform target)
+        {
+            _followTransform = target;
+        }
+        
         private void Update()
         {
             if (_followTransform == null)
