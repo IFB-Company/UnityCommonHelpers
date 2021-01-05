@@ -10,6 +10,11 @@ namespace Common.Singletons
     public class SceneSwitchingManager : GameSingletonBase<SceneSwitchingManager>
     {
         [SerializeField] private float _delayAfterLoad = 1f;
+        [SerializeField] private float _delayBeforeLoad = 0.5f;
+
+        private WaitForSecondsRealtime _waitingBefore;
+        private WaitForSecondsRealtime _waitingAfter;
+        
         protected override SceneSwitchingManager GetInstance() => this;
         private Coroutine _sceneSwitchingCoroutine;
         
@@ -22,6 +27,21 @@ namespace Common.Singletons
         /// int_param = Scene index in build settings
         /// </summary>
         public event Action<string> OnSceneLoaded;
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            if (_delayBeforeLoad > 0f)
+            {
+                _waitingBefore = new WaitForSecondsRealtime(_delayBeforeLoad);
+            }
+            
+            if (_delayAfterLoad > 0f)
+            {
+                _waitingAfter = new WaitForSecondsRealtime(_delayAfterLoad);
+            }
+        }
 
         public void LoadSceneBySceneContainer(SceneContainer sceneContainer)
         {
@@ -46,13 +66,15 @@ namespace Common.Singletons
         private IEnumerator SceneSwitchingCoroutine(string sceneName)
         {
             OnSceneStartLoading?.Invoke(sceneName);
+            yield return _delayBeforeLoad;
+            
             AsyncOperation loadingAsyncOp = SceneManager.LoadSceneAsync(sceneName);
             while (!loadingAsyncOp.isDone)
             {
                 yield return null;
             }
-            
-            yield return new WaitForSeconds(_delayAfterLoad);
+
+            yield return _delayAfterLoad;
             _sceneSwitchingCoroutine = null;
             OnSceneLoaded?.Invoke(sceneName);
         }
