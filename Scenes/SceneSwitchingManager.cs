@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
+using Common.Data;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 
 namespace Common.Singletons
@@ -19,7 +21,16 @@ namespace Common.Singletons
         /// <summary>
         /// int_param = Scene index in build settings
         /// </summary>
-        public event Action<string> OnSceneLoaded; 
+        public event Action<string> OnSceneLoaded;
+
+        public void LoadSceneBySceneContainer(SceneContainer sceneContainer)
+        {
+            Assert.IsNotNull(sceneContainer, "sceneContainer != null");
+            if (sceneContainer != null)
+            {
+                LoadSceneByName(sceneContainer.SceneName);
+            }
+        }
         
         public void LoadSceneByName(string sceneName)
         {
