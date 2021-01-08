@@ -37,19 +37,29 @@ namespace UnityCommonHelpers.ServiceLocator.UsefulServices
 
         public void MuteSound()
         {
-            MuteSource(_soundSource);
+            SetActiveMuteSource(_soundSource, true);
         }
 
         public void MuteMusic()
         {
-            MuteSource(_musicSource);
+            SetActiveMuteSource(_musicSource, true);
+        }
+        
+        public void UnMuteSound()
+        {
+            SetActiveMuteSource(_soundSource, false);
         }
 
-        private void MuteSource(AudioSource audioSource)
+        public void UnMuteMusic()
+        {
+            SetActiveMuteSource(_musicSource, false);
+        }
+
+        private void SetActiveMuteSource(AudioSource audioSource, bool isActive)
         {
             if (audioSource != null)
             {
-                audioSource.mute = true;
+                audioSource.mute = isActive;
             }
         }
 
