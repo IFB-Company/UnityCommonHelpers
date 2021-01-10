@@ -10,6 +10,8 @@ namespace UnityCommonHelpers.ServiceLocator.UsefulServices
         [SerializeField] private AudioSource _soundSource;
         [SerializeField] private AudioSource _musicSource;
 
+        public AudioClip CurrentMusicClip => _musicSource != null ? _musicSource.clip : null;
+
         private void Awake()
         {
             Assert.IsNotNull(_soundSource, "_soundSource != null");
