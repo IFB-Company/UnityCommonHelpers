@@ -7,6 +7,8 @@ namespace Common
 {
     public class TransformFollower : MonoBehaviour
     {
+        [SerializeField] private Vector3 _offset;
+        
         [SerializeField] private Transform _followTransform;
 
         public Transform FollowTransform
@@ -28,8 +30,10 @@ namespace Common
             if (_followTransform == null)
                 return;
 
+            var posToFollow = _followTransform.position + _offset;
+            
             transform.position =
-                Vector3.Lerp(transform.position, _followTransform.position, _moveSpeed * Time.deltaTime);
+                Vector3.Lerp(transform.position, posToFollow, _moveSpeed * Time.deltaTime);
             transform.rotation =
                 Quaternion.Lerp(transform.rotation, _followTransform.rotation, _rotSpeed * Time.deltaTime);
         }
