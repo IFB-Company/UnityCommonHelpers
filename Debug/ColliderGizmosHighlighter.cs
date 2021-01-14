@@ -37,7 +37,7 @@ namespace Common
             else if (_collider is SphereCollider sphereCol)
             {
                 var sphereRadius = sphereCol.radius;
-                Gizmos.DrawSphere(transform.position, sphereRadius * scale.x
+                Gizmos.DrawSphere(transform.position + sphereCol.center, sphereRadius * scale.x
                 );
                 
             }
