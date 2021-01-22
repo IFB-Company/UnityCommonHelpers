@@ -10,14 +10,14 @@ namespace Common.Data
     public class SceneContainer : ScriptableObject
     {
 #if UNITY_EDITOR
-        [SerializeField] private SceneAsset _sceneAsset;
+        [SerializeField] protected SceneAsset _sceneAsset;
 
-        private void OnValidate()
+        protected virtual void OnValidate()
         {
             _sceneName = _sceneAsset != null ? _sceneAsset.name : "UNKNOWN";
         }
 #endif
-        [SerializeField] private string _sceneName;
+        [SerializeField] protected string _sceneName;
         public string SceneName => _sceneName;
     }
 }
