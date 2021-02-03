@@ -7,9 +7,9 @@ namespace Common
 {
     public class TransformFollower : MonoBehaviour
     {
-        [SerializeField] private Vector3 _offset;
+        [SerializeField] protected Vector3 _offset;
         
-        [SerializeField] private Transform _followTransform;
+        [SerializeField] protected Transform _followTransform;
 
         public Transform FollowTransform
         {
@@ -17,15 +17,15 @@ namespace Common
             set { this._followTransform = value; }
         }
         
-        [SerializeField] private float _moveSpeed = 6f;
-        [SerializeField] private float _rotSpeed = 6f;
+        [SerializeField] protected float _moveSpeed = 6f;
+        [SerializeField] protected float _rotSpeed = 6f;
 
-        public void SetFollowTransform(Transform target)
+        public virtual void SetFollowTransform(Transform target)
         {
             _followTransform = target;
         }
         
-        private void Update()
+        protected virtual void Update()
         {
             if (_followTransform == null)
                 return;
