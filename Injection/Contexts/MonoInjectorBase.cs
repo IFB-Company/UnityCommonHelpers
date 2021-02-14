@@ -6,7 +6,7 @@ namespace UnityCommonHelpers.Injection.Contexts {
 
         protected Injector _selfInjector;
 
-        public void Init(Injector injector) {
+        public virtual void Init(Injector injector) {
             _selfInjector = new Injector(injector);
 
             _selfInjector.Bind(this);
