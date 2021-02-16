@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace UnityCommonHelpers.Injection.Contexts
 {
-    public class SceneInjector : MonoBehaviour {
+    public class SceneInjector : MonoBehaviour, IInjectable {
         [SerializeField] protected MonoInjectorBase[] _monoInjectors;
         protected Injector _sceneInjector;
 
@@ -26,6 +26,7 @@ namespace UnityCommonHelpers.Injection.Contexts
         }
 
         protected virtual void InitScene() {
+            _sceneInjector.Bind(this);
             BindMonoInjectors();
         }
 
