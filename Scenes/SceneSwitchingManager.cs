@@ -10,7 +10,9 @@ namespace Common.Singletons
     public class SceneSwitchingManager : GameSingletonBase<SceneSwitchingManager>
     {
         [SerializeField] private float _delayAfterLoad = 1f;
+        public float DelayAfterLoad => _delayAfterLoad;
         [SerializeField] private float _delayBeforeLoad = 0.5f;
+        public float DelayBeforeLoad => _delayBeforeLoad;
 
         private WaitForSecondsRealtime _waitingBefore;
         private WaitForSecondsRealtime _waitingAfter;
