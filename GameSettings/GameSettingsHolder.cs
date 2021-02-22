@@ -4,6 +4,28 @@ using UnityEngine;
 
 namespace UnityHelpers.GameSettings
 {
+    
+    [System.Serializable]
+    public class IntValue
+    {
+        public string KeyName;
+        public int Value;
+    }
+
+    [System.Serializable]
+    public class FloatValue
+    {
+        public string KeyName;
+        public float Value;
+    }
+    
+    [System.Serializable]
+    public class StringValue
+    {
+        public string KeyName;
+        public string Value;
+    }
+
     public enum GameSettingsType
     {
         NONE = 0,
@@ -23,20 +45,68 @@ namespace UnityHelpers.GameSettings
     [CreateAssetMenu(fileName = "GameSettingsHolder", menuName = "GameSettings/GameSettingsHolder")]
     public class GameSettingsHolder : ScriptableObject
     {
-        private Dictionary<GameSettingsType, Dictionary<string, GameSettingsContainer>> SettingsTypesDict;
         
         [SerializeField] private GameSettingsContainer[] _settingsContainers;
 
+        [Space]
+        [SerializeField] private IntValue[] _intValues;
+
+        [SerializeField] private FloatValue[] _floatValues;
+
+        [SerializeField] private StringValue[] _stringValues;
+        
+        private Dictionary<GameSettingsType, Dictionary<string, GameSettingsContainer>> SettingsTypesDict;
+
+        private Dictionary<string, int> _intValuesDict;
+        private Dictionary<string, float> _floatValuesDict;
+        private Dictionary<string, string> _stringValuesDict;
+        
         public void InitialSetup()
         {
             if (SettingsTypesDict == null)
             {
                 InitDict();
             }
+
+            if (_intValues.Length > 0)
+            {
+                _intValuesDict = new Dictionary<string, int>(_intValues.Length);
+                foreach (var value in _intValues)
+                {
+                    _intValuesDict.Add(value.KeyName, value.Value);
+                }
+            }
+            
+            if (_floatValues.Length > 0)
+            {
+                _floatValuesDict = new Dictionary<string, float>(_floatValues.Length);
+                foreach (var value in _floatValues)
+                {
+                    _floatValuesDict.Add(value.KeyName, value.Value);
+                }
+            }
+            
+            if (_stringValues.Length > 0)
+            {
+                _stringValuesDict = new Dictionary<string, string>(_stringValues.Length);
+                foreach (var value in _stringValues)
+                {
+                    _stringValuesDict.Add(value.KeyName, value.Value);
+                }
+            }
         }
         
         public int GetInt(string key, int defaultValue = 0)
         {
+            var valuesDict = _intValuesDict;
+            if (valuesDict != null)
+            {
+                if (valuesDict.TryGetValue(key, out var val))
+                {
+                    return val;
+                }
+            }
+            
             if (SettingsTypesDict == null)
             {
                 InitDict();
@@ -62,6 +132,15 @@ namespace UnityHelpers.GameSettings
 
         public float GetFloat(string key, float defaultValue = 0f)
         {
+            var valuesDict = _floatValuesDict;
+            if (valuesDict != null)
+            {
+                if (valuesDict.TryGetValue(key, out var val))
+                {
+                    return val;
+                }
+            }
+            
             if (SettingsTypesDict == null)
             {
                 InitDict();
@@ -86,6 +165,15 @@ namespace UnityHelpers.GameSettings
         
         public string GetString(string key, string defaultValue = "")
         {
+            var valuesDict = _stringValuesDict;
+            if (valuesDict != null)
+            {
+                if (valuesDict.TryGetValue(key, out var val))
+                {
+                    return val;
+                }
+            }
+            
             if (SettingsTypesDict == null)
             {
                 InitDict();
